@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Jul 25 21:24:26 2019
+
+@author: andour
+"""
+#%%
+import linear_bayes
+import os
+import collections as collec
+import pickle
+#%%
+
+os.chdir("/Users/andour/Google Drive/projects/Dissertation")
+file = open("simulated_data_1000", "rb")
+simulated_data_1000 = pickle.load(file)
+
+linear_model = collec.Counter()
+linear_trace = collec.Counter()
+linear_posterior_pred = collec.Counter()
+linear_plot_param = collec.Counter()
+linear_plot_data = collec.Counter()
+linear_plot_uncertainty = collec.Counter()
+
+
+for dataset_index in range(len(simulated_data_1000)):
+    
+    dataset = simulated_data_1000[dataset_index]
+    x, y = dataset[:,1], dataset[:,0]
+    output = linear_bayes.linear_bayesian(x, y, 10000)
+    
+    linear_model[dataset_index] = output["model"]
+    linear_trace[dataset_index] = output["trace"]
+    linear_posterior_pred[dataset_index] = output["posterior_pred"]
+    linear_plot_param[dataset_index] = output["plot_param"]
+    linear_plot_data[dataset_index] = output["plot_data"]
+    linear_plot_uncertainty[dataset_index] = output["plot_uncertainty"]
+    
+#%%
+    
+    
+
