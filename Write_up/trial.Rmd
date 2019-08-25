@@ -9,12 +9,67 @@ output:
   
 ---
 
-# Main Section
+# Introduction and Objectives
 
-## 2nd Level
+## background to the problem
 
-### 3rd Level
-### Title Trial
+* Importance of growth models
+* Noisy environment - Systematic error
+* Classification using Bayes factor - e.g. See for a dataset classified as linear which model seems to fit (frequentist) better which will be selected by BF and by how much
+
+## Reasons for the choice of project
+
+* Application in biology and economics
+
+* Contribution to literature as unexplored method - combination of Bayes factor and Harris paper
+
+* Study of noise to signal ratio in classification
+
+## Identification of the project’s beneficiaries
+
+* Commercial partner (probably not)
+* Literature as an empirical analysis of Bayesian classification of growth using different models
+
+## Objectives and metrics
+
+* A Classification framework which should include :
+  *A classification between different models
+  *The "certainty" of classification - TBD how we can quantify this
+  *An estimation of the parameters of the model - with the "certainty" of estimation
+  *An identification of the systematic error
+
+## Broad methods and how they answer goal
+
+* Curve fitting : 
+  *Fit a linear and a logistic and classify depending on the error. See how as you increase the variance of the error, the classification changes 
+
+* Bayesian approach : 
+
+  *Estimate the distribution of the parameters (we should get the "certainty" from here) of a Bayesian linear regression, sigmoid function and then add the algorithm set by Harris (his calculation was for a sigmoid. Might have to do it for a linear regression) and compare the models using Bayes factor. 
+
+  *Does the model that fits the most correspond to the correct functional form? 
+  
+  *See if as you change error the systematic error is caught by the Harris algo and how the model selection varies
+
+* Compare the two approches : how do they compare ? From there
+
+
+
+
+# Context
+
+
+# Data
+
+# Methods
+
+# Results
+
+# Discussion
+
+# Evaluation, Reflections, and Conclusions
+
+
 
 $\sum_{i=1}^n X_i$
 

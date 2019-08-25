@@ -88,17 +88,110 @@
 \begin{document}
 \maketitle
 
-\hypertarget{main-section}{%
-\section{Main Section}\label{main-section}}
+\hypertarget{introduction-and-objectives}{%
+\section{Introduction and
+Objectives}\label{introduction-and-objectives}}
 
-\hypertarget{nd-level}{%
-\subsection{2nd Level}\label{nd-level}}
+\hypertarget{background-to-the-problem}{%
+\subsection{background to the problem}\label{background-to-the-problem}}
 
-\hypertarget{rd-level}{%
-\subsubsection{3rd Level}\label{rd-level}}
+\begin{itemize}
+\tightlist
+\item
+  Importance of growth models
+\item
+  Noisy environment - Systematic error
+\item
+  Classification using Bayes factor - e.g.~See for a dataset classified
+  as linear which model seems to fit (frequentist) better which will be
+  selected by BF and by how much
+\end{itemize}
 
-\hypertarget{title-trial}{%
-\subsubsection{Title Trial}\label{title-trial}}
+\hypertarget{reasons-for-the-choice-of-project}{%
+\subsection{Reasons for the choice of
+project}\label{reasons-for-the-choice-of-project}}
+
+\begin{itemize}
+\item
+  Application in biology and economics
+\item
+  Contribution to literature as unexplored method - combination of Bayes
+  factor and Harris paper
+\item
+  Study of noise to signal ratio in classification
+\end{itemize}
+
+\hypertarget{identification-of-the-projects-beneficiaries}{%
+\subsection{Identification of the project's
+beneficiaries}\label{identification-of-the-projects-beneficiaries}}
+
+\begin{itemize}
+\tightlist
+\item
+  Commercial partner (probably not)
+\item
+  Literature as an empirical analysis of Bayesian classification of
+  growth using different models
+\end{itemize}
+
+\hypertarget{objectives-and-metrics}{%
+\subsection{Objectives and metrics}\label{objectives-and-metrics}}
+
+\begin{itemize}
+\tightlist
+\item
+  A Classification framework which should include : \emph{A
+  classification between different models }The ``certainty'' of
+  classification - TBD how we can quantify this \emph{An estimation of
+  the parameters of the model - with the ``certainty'' of estimation }An
+  identification of the systematic error
+\end{itemize}
+
+\hypertarget{broad-methods-and-how-they-answer-goal}{%
+\subsection{Broad methods and how they answer
+goal}\label{broad-methods-and-how-they-answer-goal}}
+
+\begin{itemize}
+\item
+  Curve fitting : *Fit a linear and a logistic and classify depending on
+  the error. See how as you increase the variance of the error, the
+  classification changes
+\item
+  Bayesian approach :
+
+  *Estimate the distribution of the parameters (we should get the
+  ``certainty'' from here) of a Bayesian linear regression, sigmoid
+  function and then add the algorithm set by Harris (his calculation was
+  for a sigmoid. Might have to do it for a linear regression) and
+  compare the models using Bayes factor.
+
+  *Does the model that fits the most correspond to the correct
+  functional form?
+
+  *See if as you change error the systematic error is caught by the
+  Harris algo and how the model selection varies
+\item
+  Compare the two approches : how do they compare ? From there
+\end{itemize}
+
+\hypertarget{context}{%
+\section{Context}\label{context}}
+
+\hypertarget{data}{%
+\section{Data}\label{data}}
+
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+\hypertarget{evaluation-reflections-and-conclusions}{%
+\section{Evaluation, Reflections, and
+Conclusions}\label{evaluation-reflections-and-conclusions}}
 
 \(\sum_{i=1}^n X_i\)
 
