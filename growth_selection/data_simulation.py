@@ -1,16 +1,17 @@
 import numpy as np
 import random
 import collections as collec
+import math
 
-def Noisy_logistic_generator(number_samples):
+def Noisy_logistic_generator(number_samples, var):
     '''Discrete stochastic logistic model simulation.  Carrying capacity K,
 intrinsic growth rate r, initial population size (inoculum) N0.  Returns an
-array with a (continuous) time column and a (discrete) population size column.'''
+array with a (discrete) time column and a (continuous) population size column.'''
 
 # Based on function : https://gist.github.com/CnrLwlss/4431230
     
-    random.seed(31)
-    np.random.seed(31)
+#    random.seed(31)
+#    np.random.seed(31)
     output = collec.Counter()
 
     for sample_i in range(number_samples):
@@ -30,10 +31,28 @@ array with a (continuous) time column and a (discrete) population size column.''
         simres[1:,0]=np.cumsum(dts)
         simres = simres[:-1]
         
+        # rescale between 0  and 1
+        simres[:,1] = (simres[:,1] - np.amin(simres[:,1]))/ (np.amax(simres[:,1]) - np.amin(simres[:,1]))
+        
         # Let us add the error 
-        simres[:, 0] = simres[:, 0] + np.random.normal(np.average(simres[:, 0]),
-                                                      np.std(simres[:, 0]),
-                                                      size = np.shape(simres[:, 0]))
+        simres[:, 1] = simres[:, 1] + np.random.normal(0,
+                                                      var,
+                                                      size = np.shape(simres[:, 1]))
         
         output[sample_i] = simres
     return(output)
+    
+  
+def Noisy_logistic_generator_bounded(obs_count):
+    
+    gen_data = np.zeros((obs_count),np.float)
+    for obs in range(obs_count):
+        if obs == 0:
+            gen_data[obs] = random.uniform(0,0.1)
+        else :
+            gen_data[obs] = 1/ (1 + math.exp(-gen_data[obs - 1]))
+        
+    return(gen_data)
+        
+    
+

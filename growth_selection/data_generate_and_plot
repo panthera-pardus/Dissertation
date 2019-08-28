@@ -14,7 +14,7 @@ os.chdir("/Users/andour/Google Drive/projects/Dissertation")
 # %%
 
 
-simulated_data = simulate.Noisy_logistic_generator(1000)
+simulated_data = simulate.Noisy_logistic_generator(1)
 random.seed(31)
 example = simulated_data[int(random.uniform(0, len(simulated_data)))]
 
