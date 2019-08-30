@@ -2,8 +2,8 @@ import numpy as np
 import random
 import collections as collec
 import math
-
-def Noisy_logistic_generator(number_samples, var):
+#%%
+def Noisy_logistic_generator(number_samples, var, drift = False):
     '''Discrete stochastic logistic model simulation.  Carrying capacity K,
 intrinsic growth rate r, initial population size (inoculum) N0.  Returns an
 array with a (discrete) time column and a (continuous) population size column.'''
@@ -34,25 +34,55 @@ array with a (discrete) time column and a (continuous) population size column.''
         # rescale between 0  and 1
         simres[:,1] = (simres[:,1] - np.amin(simres[:,1]))/ (np.amax(simres[:,1]) - np.amin(simres[:,1]))
         
-        # Let us add the error 
+        # Add the error 
         simres[:, 1] = simres[:, 1] + np.random.normal(0,
                                                       var,
                                                       size = np.shape(simres[:, 1]))
         
+        if drift == True :
+            simres[:, 1] = simres[:, 1] + N0 = int(random.uniform(1,10))
+                    
+        
         output[sample_i] = simres
     return(output)
     
-  
-def Noisy_logistic_generator_bounded(obs_count):
-    
-    gen_data = np.zeros((obs_count),np.float)
-    for obs in range(obs_count):
-        if obs == 0:
-            gen_data[obs] = random.uniform(0,0.1)
-        else :
-            gen_data[obs] = 1/ (1 + math.exp(-gen_data[obs - 1]))
+
+#%%  
+def Noisy_linear_generator(number_samples, var, drift = False):
+     output = collec.Counter()
+     for sample_i in range(number_samples):
         
-    return(gen_data)
+         # Prepare data points
+        B0 = random.uniform(0,10)
+        upper_bound_x = int(random.uniform(100, 1000))
+        upper_bound_y = random.uniform(100, 1000)
+        r = (upper_bound_y - B0)/ (upper_bound_x)
+        
+        # Trace linear data and wrap in array
+        simres = np.zeros((upper_bound_x+1,2),np.float)
+        simres[:,0] = np.array(range(upper_bound_x + 1))
+        simres[:,1] = np.array([t*r + B0 for t in range(upper_bound_x + 1)])
+        
+        # Rescale between 0 and 1
+        simres[:,1] = (simres[:,1] - np.amin(simres[:,1]))/ (np.amax(simres[:,1]) - np.amin(simres[:,1]))
+        
+        #  Add the error 
+        simres[:, 1] = simres[:, 1] + np.random.normal(0,
+                                                      var,
+                                                      size = np.shape(simres[:, 1]))
+        
+        if drift == True :
+            simres[:, 1] = simres[:, 1] + N0 = int(random.uniform(1,10))
+        
+        
+        output[sample_i] = simres
+
+     
+     return(output)
+        
+     
+        
+        
         
     
 
