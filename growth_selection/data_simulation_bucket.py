@@ -9,10 +9,19 @@ Created on Fri Aug 30 16:13:32 2019
 import data_simulation as simulate
 import numpy as np
 import pandas as pd
+import os
+import pickle
 
+os.chdir("/Users/andour/Google Drive/projects/Dissertation")
+
+#%%
 # Create 10 000 examples of each functional form - each functional form will have
 # 10 sets of 1000 examples with 10 buckets of variance noise
 
+synthetic_data = pd.DataFrame(columns = ["dataset",
+                                         "noise_bucket",
+                                         "label",
+                                         "trend"])
 
 for variance_bucket in np.linspace(0.1,1,10):
         
@@ -33,10 +42,21 @@ for variance_bucket in np.linspace(0.1,1,10):
     assign(label = np.array(["linear"] * 1000)).\
     assign(trend = np.array([False] * 1000))
     
+    dataset = pd.concat([logistic_df,linear_df])
+    
+    synthetic_data = pd.concat([synthetic_data, dataset])
+    
+#%%
+    
+file = open("simulated_data_classification", "wb")
+pickle.dump(synthetic_data, file)
+file.close()
+
+    
 
 
     
-synthetic_data = pd.concat([logistic_df,linear_df])   
+
     
     
     

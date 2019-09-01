@@ -33,3 +33,16 @@ file = open("simulated_data_1000", "wb")
 pickle.dump(simulated_data, file)
 file.close
 
+#%%
+
+simulated_data = simulate.Noisy_logistic_generator(1)[0]
+x = simulated_data[:,0]
+y = simulated_data[:,1]
+
+def quick_plot(x, y):
+    plt.figure(figsize=(8,3))
+    sns.set_style("ticks")
+    plt.plot(x, y, sns.xkcd_rgb["pale red"], lw=1)
+    plt.title("Example of simulated logistic signal with Gaussian error")
+    plt.xlabel("Time")
+    plt.ylabel("Count")

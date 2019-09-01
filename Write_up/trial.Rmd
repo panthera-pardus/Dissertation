@@ -1,5 +1,5 @@
 ---
-title: "dissertation_writeup_trial"
+title: "dissertation_writeup_draft"
 author: "Alassane Ndour"
 date: "23/08/2019"
 output:
@@ -21,7 +21,7 @@ output:
 
 * Application in biology and economics
 * Contribution to literature as unexplored method - combination of Bayes factor and Harris paper
-* Study of noise to signal ratio in classification
+* Study of noise to signal ratio in classification and different types of noise
 
 ## Identification of the project’s beneficiaries
 
@@ -39,7 +39,7 @@ output:
 ## Broad methods and how they answer goal
 
 * Curve fitting : 
-  * Fit a linear and a logistic and classify depending on the error. See how as you increase the variance of the error, the classification changes 
+  * Fit a linear and a logistic and classify depending on the error. See how as you increase the variance of the error, the classification changes (currently doing)
 
 * Bayesian approach : 
 
@@ -66,12 +66,25 @@ output:
 # Data
 
 * Synthetic data:
-  * Two sets of data one linear and one sigmoid
-  * Split datasets into ratio of error to signal. 5 different variations
-    * Currently Doing : generate synthetic data with various levels of noise and label them - currently only have sigmoid with one type of noise
+  * Two sets of data one linear and one sigmoid (describe the parameters of sigmoid)
+  * Split datasets into ratio of error to signal. buckets currently range from 0 to 1 with intervals of 0.1 (variance of the error)
   
 
 # Methods
+Here each subsection can correspond to one interest point of the experiment (e.g. adding drift, taking only the certain quartiles of the signal...). Each subsection can be divided into curve fitting led approches and bayesian approaches - With ultimately a pipeline in mind as end goal. The data is divided into bucket so that the overall dataset looks like this : (dataset contains the numpy arrays of the data in question, varriance_bucket is the variance of the error going from 0 to 1 - when 1 the error is std normal, drift_line is BOOL describes if a drift line was added to the signal and functional form is "logistic" or "linear" )
+
+```{r}
+head(dplyr::tibble(c("dataset", "variance_bucket", "drift_line", "functional_form")))
+
+```
+## Frequentist - curve fitting
+
+* find how we would tackle systematic error in this case - TBD
+
+## Bayesian model selection
+
+* find how we would tackle systematic error in this case - Ed Harris
+## 
 
 # Results
 
@@ -80,7 +93,5 @@ output:
 # Evaluation, Reflections, and Conclusions
 
 
-
-$\sum_{i=1}^n X_i$
 
 

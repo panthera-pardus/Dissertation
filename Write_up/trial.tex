@@ -24,11 +24,51 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 \hypersetup{unicode=true,
-            pdftitle={dissertation\_writeup\_trial},
+            pdftitle={dissertation\_writeup\_draft},
             pdfauthor={Alassane Ndour},
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -74,7 +114,7 @@
 
 \setlength{\droptitle}{-2em}
 
-  \title{dissertation\_writeup\_trial}
+  \title{dissertation\_writeup\_draft}
     \pretitle{\vspace{\droptitle}\centering\huge}
   \posttitle{\par}
     \author{Alassane Ndour}
@@ -119,7 +159,8 @@ project}\label{reasons-for-the-choice-of-project}}
   Contribution to literature as unexplored method - combination of Bayes
   factor and Harris paper
 \item
-  Study of noise to signal ratio in classification
+  Study of noise to signal ratio in classification and different types
+  of noise
 \end{itemize}
 
 \hypertarget{identification-of-the-projects-beneficiaries}{%
@@ -170,7 +211,7 @@ goal}\label{broad-methods-and-how-they-answer-goal}}
   \item
     Fit a linear and a logistic and classify depending on the error. See
     how as you increase the variance of the error, the classification
-    changes
+    changes (currently doing)
   \end{itemize}
 \item
   Bayesian approach :
@@ -206,7 +247,6 @@ goal}\label{broad-methods-and-how-they-answer-goal}}
 \section{Context (Literature)}\label{context-literature}}
 
 \begin{itemize}
-\tightlist
 \item
   Ed Harris
 \item
@@ -215,6 +255,9 @@ goal}\label{broad-methods-and-how-they-answer-goal}}
   Bayesian books
 \item
   Bürkner et al. (2019)
+\item
+  Claeskens and Lid Hjort (2010) (Model selection)
+\item
 \end{itemize}
 
 \hypertarget{data}{%
@@ -228,14 +271,63 @@ goal}\label{broad-methods-and-how-they-answer-goal}}
   \begin{itemize}
   \tightlist
   \item
-    Two sets of data one linear and one sigmoid
+    Two sets of data one linear and one sigmoid (describe the parameters
+    of sigmoid)
   \item
-    Split datasets into ratio of error to signal. 5 different variations
+    Split datasets into ratio of error to signal. buckets currently
+    range from 0 to 1 with intervals of 0.1 (variance of the error)
   \end{itemize}
 \end{itemize}
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
+
+Here each subsection can correspond to one interest point of the
+experiment (e.g.~adding drift, taking only the certain quartiles of the
+signal\ldots{}). Each subsection can be divided into curve fitting led
+approches and bayesian approaches - With ultimately a pipeline in mind
+as end goal. The data is divided into bucket so that the overall dataset
+looks like this : (dataset contains the numpy arrays of the data in
+question, varriance\_bucket is the variance of the error going from 0 to
+1 - when 1 the error is std normal, drift\_line is BOOL describes if a
+drift line was added to the signal and functional form is ``logistic''
+or ``linear'' )
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(dplyr}\OperatorTok{::}\KeywordTok{tibble}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"dataset"}\NormalTok{, }\StringTok{"variance_bucket"}\NormalTok{, }\StringTok{"drift_line"}\NormalTok{, }\StringTok{"functional_form"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 4 x 1
+##   `c("dataset", "variance_bucket", "drift_line", "functional_form")`
+##   <chr>                                                             
+## 1 dataset                                                           
+## 2 variance_bucket                                                   
+## 3 drift_line                                                        
+## 4 functional_form
+\end{verbatim}
+
+\hypertarget{frequentist---curve-fitting}{%
+\subsection{Frequentist - curve
+fitting}\label{frequentist---curve-fitting}}
+
+\begin{itemize}
+\tightlist
+\item
+  find how we would tackle systematic error in this case - TBD
+\end{itemize}
+
+\hypertarget{bayesian-model-selection}{%
+\subsection{Bayesian model selection}\label{bayesian-model-selection}}
+
+\begin{itemize}
+\tightlist
+\item
+  find how we would tackle systematic error in this case - Ed Harris
+  \#\#
+\end{itemize}
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -246,8 +338,6 @@ goal}\label{broad-methods-and-how-they-answer-goal}}
 \hypertarget{evaluation-reflections-and-conclusions}{%
 \section{Evaluation, Reflections, and
 Conclusions}\label{evaluation-reflections-and-conclusions}}
-
-\(\sum_{i=1}^n X_i\)
 
 
 \end{document}
