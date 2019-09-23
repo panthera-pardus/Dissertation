@@ -11,17 +11,16 @@ import random
 from sklearn.metrics import confusion_matrix
 from sklearn_doc_confusion_matrix import plot_confusion_matrix
 
-# %% Read Data
+#%% Read Data
 os.chdir("/Users/andour/Google Drive/projects/Dissertation")
-synthetic_dataset = pickle.load(open( "simulated_data_classification", "rb" ))
+synthetic_dataset = pickle.load(open( "simulated_data_classification_2", "rb" ))
 synthetic_dataset = synthetic_dataset.set_index(pd.Index(
         range(0,len(synthetic_dataset))
         ))
 
-synthetic_dataset["x_array"] = synthetic_dataset.apply(lambda x : x[0][:,1], axis = 1)
-synthetic_dataset["y_array"] = synthetic_dataset.apply(lambda x : x[0][:,0], axis = 1)
-
-# %% Define functions
+synthetic_dataset["x_array"] = synthetic_dataset.apply(lambda x : x["dataset"][:,1], axis = 1)
+synthetic_dataset["y_array"] = synthetic_dataset.apply(lambda x : x["dataset"][:,0], axis = 1)
+#%% Define functions
 
 def linear(x,a,b):
     y = a * x + b
@@ -38,6 +37,7 @@ def curve_fit_prediction(functional_form, dataset_x, dataset_y):
         # p0 = [0, min(x_dataset)] # corresponds to the initial guess
         popt, pcov = curve_fit(linear, dataset_x, dataset_y, method = 'lm')
         y_fit = linear(dataset_x, *popt)
+        dev = np.sqrt(np.diag(pcov))
 
     elif functional_form == 'logistic':
 
@@ -48,15 +48,16 @@ def curve_fit_prediction(functional_form, dataset_x, dataset_y):
         method='trf',
         maxfev=100000, bounds=(0, [1, max(dataset_x), 1]))
         y_fit = sigmoid(dataset_x, *popt)
+        dev = np.sqrt(np.diag(pcov))
 
-    return(y_fit)
+    return(y_fit, dev)
 
 
-synthetic_dataset['y_pred_linear'] = synthetic_dataset.apply(lambda x : curve_fit_prediction(
-dataset_x = x.x_array, dataset_y = x.y_array, functional_form = 'linear'), axis = 1)
+synthetic_dataset['y_pred_linear'], synthetic_dataset['std_dev'] = zip(*synthetic_dataset.apply(lambda x : curve_fit_prediction(
+dataset_x = x.x_array, dataset_y = x.y_array, functional_form = 'linear'), axis = 1))
 
-synthetic_dataset['y_pred_logistic'] = synthetic_dataset.apply(lambda x : curve_fit_prediction(
-dataset_x = x.x_array, dataset_y = x.y_array, functional_form = 'logistic'), axis = 1)
+synthetic_dataset['y_pred_logistic'], synthetic_dataset['std_dev'] = zip(*synthetic_dataset.apply(lambda x : curve_fit_prediction(
+dataset_x = x.x_array, dataset_y = x.y_array, functional_form = 'logistic'), axis = 1))
 
 synthetic_dataset['linear_mse'] = synthetic_dataset.apply(lambda x : mean_squared_error(
 y_true = x.y_array,
@@ -80,7 +81,7 @@ cm = confusion_mat_by_bucket[0.1],
 classes = ('logistic', 'linear'),
 title = 'Noise bucket 0.1',
 normalize = False)
-plt.savefig("Consusion matrix example 1")
+plt.savefig("Consusion matrix example 1_2")
 
 
 plot_confusion_matrix(
@@ -88,39 +89,10 @@ cm = confusion_mat_by_bucket[1],
 classes = ('logistic', 'linear'),
 title = 'Noise bucket 1.0',
 normalize = False)
-plt.savefig("Consusion matrix example 2")
+plt.savefig("Consusion matrix example 2_2")
 
+#%% Save dataset
 
-
-
-confusion_matrix(synthetic_dataset.label, synthetic_dataset.curve_fit_classification)
-
-
-synthetic_dataset.head()
-
-x = synthetic_dataset.x_array[6]
-y = synthetic_dataset.y_array[6]
-
-plt.plot(x,y, label = 'data')
-plt.plot(x, curve_fit_prediction(functional_form='logistic', dataset_x = x, dataset_y = y), label = 'curve fit')
-plt.title('Example of dataset and logistic fit (Noise : 0.1)')
-plt.legend(loc='best')
-plt.savefig('Example of dataset and logistic fit 1')
-
-
-
-plt.plot(x,y, label = 'data')
-plt.plot(x, curve_fit_prediction(functional_form='linear', dataset_x = x, dataset_y = y), label = 'curve fit')
-plt.title('Example of dataset and logistic fit (Noise : 0.1)')
-plt.legend(loc='best')
-plt.savefig('Example of dataset and logistic fit 2')
-
-
-x = synthetic_dataset.x_array[16013]
-y = synthetic_dataset.y_array[16013]
-
-plt.plot(x,y, label = 'data')
-plt.plot(x, curve_fit_prediction(functional_form='logistic', dataset_x = x, dataset_y = y), label = 'curve fit')
-plt.title('Example of data and logistic fit (Noise : 0.9)')
-plt.legend(loc='best')
-plt.savefig('Example of dataset and logistic fit 3')
+file = open("simulated_data_curve_fit_2", "wb")
+pickle.dump(synthetic_dataset, file)
+file.close()

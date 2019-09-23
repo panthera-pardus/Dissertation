@@ -4,6 +4,8 @@ import collections as collec
 import math
 #%%
 def Noisy_linear_generator(number_samples, var, drift = False):
+    '''creates a linear data sample and returns a dics with them
+    dataset along with the required parameters'''
      output = collec.Counter()
      for sample_i in range(number_samples):
 
@@ -38,6 +40,8 @@ def Noisy_linear_generator(number_samples, var, drift = False):
 
 #%%
 def Noisy_logistic_generator(number_samples, var, drift = False):
+    ''' creates a logistic data sample and returns a dics with them
+    dataset along with the required parameters '''
      # Logistinc is given by y = L/(1 + exp(-r(x - x0)))
     output = collec.Counter()
 
@@ -73,6 +77,7 @@ def Noisy_logistic_generator(number_samples, var, drift = False):
 
 # Could redefine Noisy_logistic_generator in terms of sigmoid function
 # Will do for linear and sigmoid for clarity
+
 # def sigmoid_sim(x, L ,x0, k):
 #     y = L / (1 + np.exp(-k*(x-x0)))
 #     return (y)

@@ -1,0 +1,100 @@
+# %% Import cell
+import numpy as np
+import random
+import collections as collec
+import math
+
+#%% Define basic functions used
+def sigmoid_sim(x, L ,x0, k):
+    y = L / (1 + np.exp(-k*(x-x0)))
+    return (y)
+
+def linear_sim(a, b, x):
+    y = a * x + b
+    return(y)
+
+#%%
+def Noisy_logistic_generator_2(number_samples, variance_error):
+    # y = L/(1 + exp(-k(x - x0)))
+
+    # Get collectors
+    output = {
+    'parameters' : collec.deque(),
+     'dataset' : collec.deque()
+     }
+
+    # Run loop for numbers of smaples required
+    for sample in range(number_samples):
+        #Define parameters
+        x = np.array(range(int(random.uniform(100, 1000)) + 1))
+
+        L = random.uniform(0.9, 1.1)
+
+        x0 = int(random.uniform(
+        np.amax(x) * 0.25,
+        np.amax(x) * 0.75
+        ))
+
+        k = random.uniform(0.5, 2)
+
+        # Create the array and the corresponding sifmoid function and save it
+        simres = np.zeros((np.amax(x)+1,2),np.float)
+        simres[:,1] = x
+        simres[:,0] = sigmoid_sim(x, L, x0, k) + np.random.normal(0,
+                                                      variance_error,
+                                                      size = np.shape(simres[:,1]))
+        output['parameters'].append({
+        'x0': x0,
+        'L' : L,
+        'k' : k
+        })
+
+        output['dataset'].append(simres)
+
+    return(output)
+
+
+#%%
+
+def Noisy_linear_generator_2(number_samples, variance_error):
+    # y = a * x + b
+
+    # Get collectors
+    output = {
+    'parameters' : collec.deque(),
+     'dataset' : collec.deque()
+     }
+
+    # Run loop for numbers of smaples required
+    for sample in range(number_samples):
+        #Define parameters
+        a = random.uniform(100, 1000)
+        b = random.uniform(0,100)
+        x = np.array(range(int(random.uniform(100, 1000)) + 1))
+
+        # Create the array and the corresponding sifmoid function and save it
+        simres = np.zeros((np.amax(x)+1,2),np.float)
+        simres[:,1] = x
+        simres[:,0] = linear_sim(a, b, x) + np.random.normal(0,
+                                                      variance_error,
+                                                      size = np.shape(simres[:,1]))
+
+        output['parameters'].append({
+        'a' : a,
+        'b' : b
+        })
+
+        output['dataset'].append(simres)
+
+    return(output)
+
+
+
+
+
+
+
+#%%
+# Noisy_logistic_generator_2(2, 0)
+# %%
+# Noisy_linear_generator_2(2, 0)
