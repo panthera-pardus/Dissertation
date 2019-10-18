@@ -46,10 +46,18 @@ apply(lambda x : roc_curve(x.dummy_label, x.dummy_classification))
 
 
 F1_by_bucket.plot()
+plt.title("F1 vs noise")
+plt.savefig("F1_MSE classification plot (classification)")
+
 accuracy_by_bucket.plot()
+plt.title("accuracy vs noise (MSE classification)")
+plt.savefig("accuracy_MSE classification plot")
+
 
 for noise_bucket in np.linspace(0.1,1, 10):
     plt.plot(ROC_by_bucket[noise_bucket][0], ROC_by_bucket[noise_bucket][1], label = "bucket {0}".format(noise_bucket))
     plt.title('ROC curve')
     plt.xlabel('False positive rate')
     plt.ylabel('True positive rate')
+
+plt.savefig("ROC curves by noise")

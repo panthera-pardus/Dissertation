@@ -44,16 +44,16 @@ std_dev_by_bucket = synthtic_logistic.groupby("noise_bucket")[["L_std_dev_weight
 # re-scaled standard deviation
 std_dev_by_bucket_scaled = (std_dev_by_bucket - std_dev_by_bucket.iloc[0,:])/std_dev_by_bucket.iloc[0,:]
 std_dev_by_bucket_scaled.plot(y = "L_std_dev_weighted")
+plt.title("weighted average L standard deviation (index noise_bucket = 0.1)")
+plt.savefig("std_dev_L")
 std_dev_by_bucket_scaled.plot(y = "x0_std_dev_weighted")
+plt.title("weighted average x0 standard deviation (index noise_bucket = 0.1)")
+plt.savefig("std_dev_x0")
 std_dev_by_bucket_scaled.plot(y = "k_std_dev_weighted")
+plt.title("weighted average k standard deviation (index noise_bucket = 0.1)")
+plt.savefig("std_dev_k")
 
 
-std_dev_by_bucket_scaled
-
-
-
-x = synthetic_dataset.loc[19000, "x_array"]
-y = synthetic_dataset.loc[19000, "y_array"]
 
 #%%
 def sigmoid(x, L ,x0, k):

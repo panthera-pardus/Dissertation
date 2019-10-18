@@ -1,0 +1,3 @@
+Apply Leave-future-out Bayesian CV + Maximum Aposteriori in order to make the growth_selection
+Train the prior on a training set
+Find a way to reduce/capture the noise from the data
