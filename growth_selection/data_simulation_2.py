@@ -67,9 +67,9 @@ def Noisy_linear_generator_2(number_samples, variance_error, trend = False):
     # Run loop for numbers of smaples required
     for sample in range(number_samples):
         #Define parameters
-        a = random.uniform(100, 1000)
-        b = random.uniform(0,100)
-        x = np.array(range(int(random.uniform(100, 1000)) + 1))
+        a = random.uniform(0, 0.05)
+        b = random.uniform(0,0.2)
+        x = np.array(range(int(random.uniform(0, 50) + 1) + 1)) # adding 1 to avoid having arrays with only 0
 
         # Create the array and the corresponding sifmoid function and save it
         simres = np.zeros((np.amax(x)+1,2),np.float)
@@ -98,6 +98,5 @@ def Noisy_linear_generator_2(number_samples, variance_error, trend = False):
 Noisy_logistic_generator_2(2, 0)
 #%%
 Noisy_linear_generator_2(2, 0)
-
 # %%
 # Noisy_linear_generator_2(2, 0)

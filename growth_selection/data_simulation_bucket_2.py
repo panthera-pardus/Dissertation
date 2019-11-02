@@ -1,6 +1,6 @@
 #%%
 import os
-os.chdir("/Users/andour/Google Drive/projects/Dissertation/growth_selection")
+os.chdir("/Users/andour/Google Drive/projects/Dissertation/growth_selection/")
 import data_simulation_2 as simulate
 import numpy as np
 import pandas as pd
@@ -39,8 +39,14 @@ for variance_bucket in np.linspace(0.1,1,10):
     dataset = pd.concat([logistic_df,linear_df], sort=False)
 
     synthetic_data = pd.concat([synthetic_data, dataset], sort=False)
+
+synthetic_data["x_array"] = synthetic_data.apply(lambda x : x["dataset"][:,1], axis = 1)
+synthetic_data["y_array"] = synthetic_data.apply(lambda x : x["dataset"][:,0], axis = 1)
+
 #%%
 
 file = open("simulated_data_classification_2", "wb")
 pickle.dump(synthetic_data, file)
 file.close()
+
+synthetic_data
