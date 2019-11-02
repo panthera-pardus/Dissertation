@@ -1,0 +1,120 @@
+---
+title: "dissertation_writeup_draft"
+author: "Alassane Ndour"
+date: "23/08/2019"
+output:
+ pdf_document:
+  keep_tex: true
+  number_sections: true
+  
+---
+
+# Introduction and Objectives
+
+## background to the problem
+
+* Importance of growth models
+* Noisy environment - Systematic error
+* Classification using Bayes factor - e.g. See for a dataset classified as linear which model seems to fit (frequentist) better which will be selected by BF and by how much while varying noise
+
+## Reasons for the choice of project
+
+* Application in biology and economics
+* Contribution to literature as unexplored method - combination of Bayes factor and Harris paper
+* Study of noise to signal ratio in classification and different types of noise
+
+## Identification of the project’s beneficiaries
+
+* Commercial partner (probably not but mught get data from them)
+* Literature as an empirical analysis of Bayesian classification of growth using different models
+
+## Objectives and metrics
+
+* A Classification framework which should include :
+  * A classification between different models
+  * The "certainty" of classification - TBD how we can quantify this
+  * An estimation of the parameters of the model - with the "certainty" of estimation
+  * An identification of the systematic error
+
+## Broad methods and how they answer goal
+
+* Curve fitting : 
+  * Fit a linear and a logistic and classify depending on the error. See how as you increase the variance of the error, the classification changes (currently doing)
+
+* Bayesian approach : 
+
+  * Estimate the distribution of the parameters (we should get the "certainty" from here) of a Bayesian linear regression, sigmoid function and then add the algorithm set by Harris (his calculation was for a sigmoid. Might have to do it for a linear regression) and compare the models using Bayes factor. 
+
+  * Does the model that fits the most correspond to the correct functional form? 
+  
+  * See if as you change error the systematic error is caught by the Harris algo and how the model selection varies
+
+* Compare the two approches : how do they compare ? In terms of classification error rate for instance
+
+* Furthermore, there have been interesting developments in combining Bayesian methods and cross validation as they are not mutually exclusive methods and can contribute to robust estimates. Such works include Bürkner et al. (2019) where the authors aim to improve upon leave-future-out cross-validation (LFO-CV) - an adaptation of leave-one-out cross-validation (LOO-CV) to timeseries - to reduce computation time.
+
+# Context (Literature)
+
+* Ed Harris
+* LOO-CV
+* Bayesian books
+* Bürkner et al. (2019)
+* Claeskens and Lid Hjort (2010) (Model selection)
+* 
+
+
+# Data
+
+The data used in this project was generated data. There are several practical and methodological reasons for doing so. First, methodogically, generating data makes sense. As advised by Kéry and Royle (2016) as this offers a ideal control environment under which parameters and hyper-parameters are known. Furthermore, in growth cell literature, from which this project stems (e.g. Harris et al. (2016)) synthetic data is standard practice. Second, data from the commercial partner that was meant was to be analysed here was unavailable due to legal restrictions and no open source equivalents were found. As the synthetic data is at the heart of the analysis this section will describe in greater detail the data meant to be mimiced and the process/tools used to do so.
+
+The type of data meant to be mimiced in this project is the similar to a cell counting process. The context posed by the commercial partner was the following : 
+At any time `t` we must be able to estimate the number of a given cells that we wish to count. We have knowledge of the growth function that the cells take (i.e. `f(t)`). Now we know that introducing an agent in our cell sample alters the growth path to another growth process (`g(t)`). Given this we should be able to obtain the number of cells for any given time if we have knowledge of the presence of the agent. However if we do not know if the agent has been introduced in the sample then we must select whether we estimate the numbers of cells using `f(t)` or `g(t)`. We can apply a model selection in this case between the two growth process. Additionally, the counting process is subejct to a large amount of noise. Therefore, finding the ideal model selection method under noisy conditions describes problem to solve. In this case, the ideal model selection would favour a growth function that is able to find the true growth process along with the parameters associated to it. Furthermore, it is interesting for the researcher to be able to jauge the uncertainty surrounding the selected model and the parameters 
+
+Within this context, the data generated was meant to mimic a growth process through time. `x` represents the time through which the count increases. To bound the problem the count was normalized (min-max normalization) :
+
+`x belongs to [0, 1000]`
+`y belongs to [0 and 1]`
+
+The two growth functions used to generate the data were a simple linear function (1) and a logistic function (2) of the following forms : 
+
+`f(t) = alpha + beta * x (1)`
+where `alpha` is the intercept and `beta` the the coefficient of `x` and :
+
+`g(t) = L/(1 +  e^(-k(x - x0))) (2)`
+where `L` describes the maximum value the curve could take, `k` describes the growth rate of the logistic function and `x0` represents the sigmoid's midpoint.
+
+For all these parameters, the following values were uniformly drawn :
+* alpha ~ U[0, 0.05]
+* beta ~ U[0,0.2]
+* L ~ U[0.9, 1.1]
+* x0 ~ U[1/4 * max(x) , 3/4 * max(x)]
+* k ~ U[0.5, 2]
+
+
+In order to simulate the noise in the problem and analyze it in a coherent manner different levels of additive Gaussian errors were added ranging. The Gaussian errors all had a mean of 0 and a a variance `sigma` ranging from 0.1 to 1 by intervals of 0.1. In the following discussion we refer to each of these noise levels as noise buckets. Each noise bucket was conprised of 1000 synthetic datasets. 
+
+# Methods
+Here each subsection can correspond to one interest point of the experiment (e.g. adding drift, taking only the certain quartiles of the signal...). Each subsection can be divided into curve fitting led approches and bayesian approaches - With ultimately a pipeline in mind as end goal. The data is divided into bucket so that the overall dataset looks like this : (dataset contains the numpy arrays of the data in question, varriance_bucket is the variance of the error going from 0 to 1 - when 1 the error is std normal, drift_line is BOOL describes if a drift line was added to the signal and functional form is "logistic" or "linear" )
+
+```{r}
+head(dplyr::tibble(c("dataset", "variance_bucket", "drift_line", "functional_form")))
+
+```
+## Frequentist - curve fitting
+
+* find how we would tackle systematic error in this case - TBD
+
+## Bayesian model selection
+
+* find how we would tackle systematic error in this case - Ed Harris
+## 
+
+# Results
+
+# Discussion
+
+# Evaluation, Reflections, and Conclusions
+
+
+
+
