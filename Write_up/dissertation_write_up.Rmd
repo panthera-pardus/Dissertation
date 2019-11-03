@@ -91,18 +91,44 @@ For all these parameters, the following values were uniformly drawn :
 * k ~ U[0.5, 2]
 
 
-In order to simulate the noise in the problem and analyze it in a coherent manner different levels of additive Gaussian errors were added ranging. The Gaussian errors all had a mean of 0 and a a variance `sigma` ranging from 0.1 to 1 by intervals of 0.1. In the following discussion we refer to each of these noise levels as noise buckets. Each noise bucket was conprised of 1000 synthetic datasets. 
-
-# Methods
-Here each subsection can correspond to one interest point of the experiment (e.g. adding drift, taking only the certain quartiles of the signal...). Each subsection can be divided into curve fitting led approches and bayesian approaches - With ultimately a pipeline in mind as end goal. The data is divided into bucket so that the overall dataset looks like this : (dataset contains the numpy arrays of the data in question, varriance_bucket is the variance of the error going from 0 to 1 - when 1 the error is std normal, drift_line is BOOL describes if a drift line was added to the signal and functional form is "logistic" or "linear" )
+In order to simulate the noise in the problem and analyze it in a coherent manner different levels of additive Gaussian errors were introduced. The Gaussian errors all had a mean of 0 and a a variance `sigma` ranging from 0.1 to
+1 by intervals of 0.1. In the following discussion we refer to each of these noise levels as noise buckets. Each noise bucket was conprised of 1000 synthetic datasets. To generate the data, custom numpy based functions were used.
+To understand the robustness of any of the selection processes used, we add to the generated data a drift which distorts the growth functional [TO DO]. From the synthtic data we record the x and y values 
+(which are reffered to as the datasets) as well as the label (i.e. "linear" or "logistic"), the set of corresponding parameters and its corresponding noise bucket. A subset of the data used is presented in figure .. 
+to provide clarity on the data used.
 
 ```{r}
 head(dplyr::tibble(c("dataset", "variance_bucket", "drift_line", "functional_form")))
 
 ```
-## Frequentist - curve fitting
 
-* find how we would tackle systematic error in this case - TBD
+# Methods
+This section describes the different estimation strategies used for model selection. To compare how well the different methods performed, we look at how well the datasets are classified correclty as well as how confident in the 
+classification. Furthermore, as the systematic error and the parameters are of interest, we also focus on the estimated parameter values for different noise levels (and our confidence of these values) as well of when possible thes estimation of the eror itself. Finally, the time/complexity required for the estimation is also an important aspect of the study.
+
+
+## Frequentist approach: curve fitting
+
+In the literature that tackles similar problems, curve fitting is the standard approch as demonstrated by [FIND REFERENCE]. In this study we use the same approach whoch we shall discuss in detail here.
+Curve fitting refers to the process of obtaining a mathematical function that can approxite a data. There are many approches to solve such a problem but one of the most common ones is to solve the least square problem shown in formally shown equation ... . Least square aims at minimizing the sum of the distances between the fitted curve and the data points. Here a noticable difference has to be noted between a linear functional form and a logistic one:
+The former represents an unbound problem whereas the logistic function is by contruction bounded. This implies that different algorithms must be used in order to solve apply curve fitting to the two functions.
+
+* (i) Solving the linear least square problem : 
+Solving the linear regression problem is straightforward and a commmon result. As such the details of solving it are not expanded on here. If needed, readers can refer to [add reference].
+
+* (ii) Solving the bounded non-linear least square problem :
+Solving the logistic curve fitting  : trust region reflective algorithm (breif details on the algo).
+Given bounds were 0 and 1 - this mases sense as the researcher would have an idea of these bounds.
+
+Both (i) and (ii) were solved using python's scientific library scipy.
+
+Once both all the datasets were fitted with a logistic and a linear regression, a classification method was required. Here the MSE (equation required) was the prime candidate : the functional form with the lowest mean-squared 
+error for a dataset would determine the predicted label. The advantage of this method was that it was possible to evaluate the confidence of the classification by observing the difference of the MSEs
+
+
+* Standard approch
+* method used linear uses lm and 
+* algorithm and package used used
 
 ## Bayesian model selection
 
