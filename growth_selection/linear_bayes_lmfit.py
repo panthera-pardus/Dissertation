@@ -168,12 +168,34 @@ classes = ('logistic', 'linear'),
 title = 'Noise bucket 1',
 normalize = False)
 
+#%% Estimation of noise by bucket
+file = open("sample_data_bayes_classified", "wb")
+pickle.dump(sample_data, file)
+file.close()
+
+sample_data["error_estimation"] = sample_data.apply(lambda x : np.exp(
+x.logistic_bayes_result.init_values["__lnsigma"]) if x.bayes_preditcion == "logistic" else np.exp(x.linear_bayes_result.init_values["__lnsigma"]), axis = 1
+)
+
+error_bucket = sample_data.groupby("noise_bucket").mean()["error_estimation"]
+plt.ylim((0,2))
+plt.plot(error_bucket)
+plt.xlabel("Error bucket")
+plt.title("Mean of median error estimation")
+
+#%% Parameter k within one standard deviation ?
+
+sample_data_logistic = sample_data.loc[sample_data["label"] == "logistic"]
+
+example
+
+quantiles = np.percentile(example.flatchain['beta'], [2.28, 15.9, 50, 84.2, 97.7])
+print("1 sigma spread", 0.5 * (quantiles[3] - quantiles[1]))
+np.std(res.flatchain['alpha'])
 
 
-
-
-
-
+emcee_plot = corner.corner(example.flatchain, labels=example.var_names,
+                           truths=list(example.params.valuesdict().values()))
 
 
 

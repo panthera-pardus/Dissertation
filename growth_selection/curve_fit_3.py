@@ -12,7 +12,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn_doc_confusion_matrix import plot_confusion_matrix
 
 #%% Read Data
-os.chdir("/Users/andour/Google Drive/projects/Dissertation")
+os.chdir("/Users/andour/Google Drive/projects/Dissertation/data")
 synthetic_dataset = pickle.load(open( "simulated_data_classification_2", "rb" ))
 synthetic_dataset = synthetic_dataset.set_index(pd.Index(
         range(0,len(synthetic_dataset))
