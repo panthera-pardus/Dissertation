@@ -3,6 +3,8 @@ import numpy as np
 import random
 import collections as collec
 import math
+from lmfit import Model, Parameter, report_fit
+from scipy.optimize import curve_fit
 
 #%% Define basic functions used - a sigmoid and a linear function
 def sigmoid_sim(x, L ,x0, k):
@@ -46,6 +48,14 @@ def Noisy_logistic_generator_2(number_samples, variance_error, drift_bool = Fals
 
         if drift_bool == False :
             simres[:,0] = (simres[:,0] - np.amin(simres[:,0]))/ (np.amax(simres[:,0]) - np.amin(simres[:,0]))
+            y = simres[:,0]
+            p0 = [1, random.choice(x), random.uniform(0, 1)] # initial guess
+            popt, pcov = curve_fit(f = sigmoid_sim,
+            xdata = x,
+            ydata = y,
+            method='trf',
+            maxfev=100000, bounds=(0, [1, np.amax(x), 1]))
+            L ,x0, k = popt
             simres[:,0] += np.random.normal(0, variance_error, size = np.shape(simres[:,1]))
 
             output['parameters'][sample] = {
@@ -60,6 +70,14 @@ def Noisy_logistic_generator_2(number_samples, variance_error, drift_bool = Fals
                                               len(simres[:,0])))
             simres[:,0][random_index:len(simres[:,0])] = simres[:,0][random_index:len(simres[:,0])] + drift * simres[:,1][random_index:len(simres[:,1])]
             simres[:,0] = (simres[:,0] - np.amin(simres[:,0]))/ (np.amax(simres[:,0]) - np.amin(simres[:,0]))
+            y = simres[:,0]
+            p0 = [1, random.choice(x), random.uniform(0, 1)] # initial guess
+            popt, pcov = curve_fit(f = sigmoid_sim,
+            xdata = x,
+            ydata = y,
+            method='trf',
+            maxfev=100000, bounds=(0, [1, np.amax(x), 1]))
+            L ,x0, k = popt
             simres[:,0] += np.random.normal(0, variance_error, size = np.shape(simres[:,1]))
 
             output['parameters'][sample] = {
@@ -103,6 +121,9 @@ def Noisy_linear_generator_2(number_samples, variance_error, drift_bool = False)
 
         if drift_bool == False :
             simres[:,0] = (simres[:,0] - np.amin(simres[:,0]))/ (np.amax(simres[:,0]) - np.amin(simres[:,0]))
+            y = simres[:,0]
+            popt, pcov = curve_fit(linear_sim, x, y, method = 'lm')
+            a,b = popt
             simres[:,0] += np.random.normal(0, variance_error, size = np.shape(simres[:,1]))
 
             output['parameters'][sample] = {
@@ -116,6 +137,9 @@ def Noisy_linear_generator_2(number_samples, variance_error, drift_bool = False)
                                               len(simres[:,0])))
             simres[:,0][random_index:len(simres[:,0])] = simres[:,0][random_index:len(simres[:,0])] + drift * simres[:,1][random_index:len(simres[:,1])]
             simres[:,0] = (simres[:,0] - np.amin(simres[:,0]))/ (np.amax(simres[:,0]) - np.amin(simres[:,0]))
+            y = simres[:,0]
+            popt, pcov = curve_fit(linear_sim, x, y, method = 'lm')
+            a,b = popt
             simres[:,0] += np.random.normal(0, variance_error, size = np.shape(simres[:,1]))
 
             output['parameters'][sample] = {
@@ -137,7 +161,3 @@ def Noisy_linear_generator_2(number_samples, variance_error, drift_bool = False)
 # #%%
 # b = Noisy_linear_generator_2(2, 1, True)
 # plt.plot(b['dataset'][0][:,1], b['dataset'][0][:,0])
-#
-#
-#
-#

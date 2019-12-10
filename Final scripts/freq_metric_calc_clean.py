@@ -17,6 +17,7 @@ import time
 #%% Read dataset and define functions
 os.chdir("/Users/andour/Google Drive/projects/Dissertation/Final data")
 synthetic_dataset = pickle.load(open( "simulated_data_raw", "rb" ))
+# synthetic_dataset = synthetic_dataset.sample(1)
 
 def linear(x,a,b):
     y = a * x + b
@@ -33,6 +34,8 @@ def curve_fit_prediction(functional_form, dataset_x, dataset_y):
         popt, pcov = curve_fit(linear, dataset_x, dataset_y, method = 'lm')
         y_fit = linear(dataset_x, *popt)
         dev = np.sqrt(np.diag(pcov))
+        alpha, beta = popt
+        param = {"alpha" : [alpha - dev[0], alpha + dev[0]], "beta" : [beta - dev[1], beta + dev[1]]}
 
     elif functional_form == 'logistic':
 
@@ -44,8 +47,10 @@ def curve_fit_prediction(functional_form, dataset_x, dataset_y):
         maxfev=100000, bounds=(0, [1, max(dataset_x), 1]))
         y_fit = sigmoid(dataset_x, *popt)
         dev = np.sqrt(np.diag(pcov))
+        L ,x0, k = popt
+        param = {"k" : [k - dev[2], k + dev[2]], "x0" : [x0 - dev[1], x0 + dev[1]]}
 
-    return(y_fit, dev)
+    return(y_fit, param)
 
 def compute_rss(y_true, y_predicted):
     residual = (y_true - y_predicted)
@@ -76,15 +81,16 @@ def shanon_aic(std_dev_error, aic, sample_size):
     return(aic - sample_size * np.log10(residual_entropy(std_dev_error)))
 
 #%% Call functions and calculate the MSE, MAE and adjusted R^2
-synthetic_dataset['y_pred_linear'], synthetic_dataset['std_dev'] = zip(*synthetic_dataset.apply(lambda x : curve_fit_prediction(
+synthetic_dataset['y_pred_linear'], synthetic_dataset['param_linear'] = zip(*synthetic_dataset.apply(lambda x : curve_fit_prediction(
 dataset_x = x.x_array, dataset_y = x.y_array, functional_form = 'linear'), axis = 1))
 
-synthetic_dataset['y_pred_logistic'], synthetic_dataset['std_dev'] = zip(*synthetic_dataset.apply(lambda x : curve_fit_prediction(
+synthetic_dataset['y_pred_logistic'], synthetic_dataset['param_logistic'] = zip(*synthetic_dataset.apply(lambda x : curve_fit_prediction(
 dataset_x = x.x_array, dataset_y = x.y_array, functional_form = 'logistic'), axis = 1))
 
 file = open("simulated_data_freq_time_stat", "wb") # Open file to measure the time taken for each estimation
 time_dict = {}
 
+#%% Calculate the metrics
 # Calculate MSE
 start = time.time()
 
